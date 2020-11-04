@@ -1,0 +1,24 @@
+{
+  "version": "1.0.0",
+  "name": "adbrix-remaster-web-sdk-test3",
+  "description": "Adbrix Remaster Web SDK",
+  "author": {
+    "name": "igaworks"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IGAWorksDev/SDK-WEB-Abx.Remaster-.git"
+  },
+  "bugs": {
+    "url": "https://github.com/IGAWorksDev/SDK-WEB-Abx.Remaster-.git/issues"
+  },
+  "homepage": "http://www.adbrix.com/",
+  "keywords": [
+    "adbrix",
+    "web sdk",
+    "web tracking"
+  ],
+  "license": "ISC",
+  "main": "abx-web-sdk.min.js",
+  "types": "type.d.ts"
+}
