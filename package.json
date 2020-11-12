@@ -1,16 +1,16 @@
 {
   "version": "1.0.0",
-  "name": "adbrix-remaster-web-sdk-test3",
+  "name": "adbrix-remaster-web-sdk",
   "description": "Adbrix Remaster Web SDK",
   "author": {
     "name": "igaworks"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/IGAWorksDev/SDK-WEB-Abx.Remaster-.git"
+    "url": "git+https://github.com/IGAWorksDev/SDK-WEB-Abx.Remaster-public"
   },
   "bugs": {
-    "url": "https://github.com/IGAWorksDev/SDK-WEB-Abx.Remaster-.git/issues"
+    "url": "https://github.com/IGAWorksDev/SDK-WEB-Abx.Remaster-public/issues"
   },
   "homepage": "http://www.adbrix.com/",
   "keywords": [
