@@ -1,3 +1,24 @@
+export enum UtmParamsEnum {
+  UTM_SOURCE = 'utm_source',
+  UTM_MEDIUM = 'utm_medium',
+  UTM_CAMPAIGN = 'utm_campaign',
+  UTM_TERM = 'utm_term',
+  UTM_CONTENT = 'utm_content',
+}
+
+export enum NaverParamsEnum {
+  N_CAMPAIGN_TYPE = 'n_campaign_type',
+  N_AD_GROUP = 'n_ad_group',
+  N_MEDIA = 'n_media',
+  N_AD = 'n_ad',
+  N_KEYWORD = 'n_keyword',
+  N_KEYWORD_ID = 'n_keyword_id',
+  N_QUERY = 'n_query',
+  N_RANK = 'n_rank',
+  N_MALL_PID = 'n_mall_pid',
+  N_CONTRACT = 'n_contract'
+}
+
 export interface IAbxOption {
   setOptions(opts?: IAbxCoreInitOptions): void;
 
@@ -271,4 +292,23 @@ export enum SignUpEnum {
   ETC = 'ETC',
   SkTid = 'SkTid',
   AppleId = 'AppleId',
+}
+
+
+export interface AppLandingMetaInfo {
+  appkey: string;
+  web_secretkey_sha256: string;
+  app_name: string;
+  aos_market_url: string;
+  ios_market_url: string;
+  app_icon: string;
+  web_url: string;
+  og_tag: OgTagModel;
+  last_updated_datetime: Date | string;
+}
+
+export interface OgTagModel {
+  title: string;
+  description: string;
+  image_url: string;
 }
