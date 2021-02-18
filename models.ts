@@ -51,6 +51,7 @@ export interface IAbxConstant {
 export interface IAbxMetaStorageData {
   firstPartyId: string | null;
   lastFirstOpenId: string | null;
+  lastDeeplinkId: string | null;
   lastEventLogId: string | null;
   lastDailyFirstOpenTime: number | null;
   session: IAbxSession;
@@ -118,6 +119,8 @@ export interface IAbxCoreInitOptions {
 
   isExecPageViewEvent?: boolean;
 
+  supportUrlQueryKeys?: string[];
+
   traceLevel?: TraceLevel;
   traceListener?: Function;
 
@@ -144,6 +147,8 @@ export interface IAdbrixSdkCore {
   queue: Array<any>;
 
   init(opts: IAbxCoreInitOptions): void;
+
+  onInitialized(callback: () => void): void;
 
   login(userId: string | number): void;
 
@@ -245,6 +250,7 @@ export interface IAdbrixEventDeviceInfo {
   carrier?: string | null;
   language: string;
   country?: string | null;
+  time_zone_offset?: number | null;
 }
 
 export interface IAdbrixEventCommonModel {
@@ -304,6 +310,7 @@ export interface AppLandingMetaInfo {
   app_icon: string;
   web_url: string;
   og_tag: OgTagModel;
+  measurement: boolean;
   last_updated_datetime: Date | string;
 }
 
