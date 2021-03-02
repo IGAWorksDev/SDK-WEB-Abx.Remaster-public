@@ -107,19 +107,31 @@ export enum TraceLevel {
 export interface IAbxCoreInitOptions {
   appkey: string | null;
   webSecretkey: string | null;
+  // 사용자 해쉬값
   userHash?: string | number | null;
   appVersion?: string;
 
+  // 광고 추적을 위한 옵트아웃
   isOptOut?: boolean;
 
+  // utm 추적
   isIncludeUtm?: boolean;
+  // naver 추적
   isIncludeNaver?: boolean;
+  // referrer 추적
   isIncludeReferrer?: boolean;
+  // gclid 추적
   isincludeGclid?: boolean;
 
+  // init시, page 추적
   isExecPageViewEvent?: boolean;
 
+  // 커스텀 query param 추적
   supportUrlQueryKeys?: string[];
+
+  // 서브도메인 추적 여부
+  // true가 기본값
+  shareSubdomainCookie?: boolean;
 
   traceLevel?: TraceLevel;
   traceListener?: Function;
