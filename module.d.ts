@@ -30,5 +30,7 @@ interface Window {
   // adbrix web sdk
   adbrix: any;
   adbrix_core: any;
+  // ie ajax
+  XDomainRequest: any;
 }
 

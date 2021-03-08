@@ -190,15 +190,15 @@ export interface IAdbrixSdkCoreUserProperty {
 }
 
 export interface IAdbrixSdkCoreCommon {
-  signUp(signChannel: SignUpEnum): void;
+  signUp(signChannel: SignUpEnum, properties?: Dictionary<any> | null | undefined): boolean;
 
-  invite(inviteChannel: SignUpEnum, userId: string | number): void;
+  invite(inviteChannel: SignUpEnum, userId: string | number, properties?: Dictionary<any> | null | undefined): boolean;
 
-  useCredit(credit: number): void;
+  useCredit(credit: number, properties?: Dictionary<any> | null | undefined): boolean;
 }
 
 export interface IAdbrixSdkCoreEvent {
-  send(key: string, eventProperty: Dictionary<string | number | boolean> | null | undefined): void;
+  send(key: string, eventProperty?: Dictionary<any> | null | undefined): boolean;
 }
 
 export interface IAdbrixSdkCoreDebug {
