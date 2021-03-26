@@ -1,3 +1,7 @@
+import exp from 'constants';
+
+export const instanceOf = <T>(p: any, key: string): p is T => p.hasOwnProperty(key);
+
 export enum UtmParamsEnum {
   UTM_SOURCE = 'utm_source',
   UTM_MEDIUM = 'utm_medium',
@@ -18,6 +22,48 @@ export enum NaverParamsEnum {
   N_MALL_PID = 'n_mall_pid',
   N_CONTRACT = 'n_contract'
 }
+
+export enum SignUpEnum {
+  Kakao = 'Kakao',
+  Naver = 'Naver',
+  Line = 'Line',
+  Google = 'Google',
+  Facebook = 'Facebook',
+  Twitter = 'Twitter',
+  whatsApp = 'whatsApp',
+  QQ = 'QQ',
+  WeChat = 'WeChat',
+  UserId = 'UserId',
+  ETC = 'ETC',
+  SkTid = 'SkTid',
+  AppleId = 'AppleId',
+}
+
+
+export enum CurrencyEnum {
+  KRW = 'KRW',
+  USD = 'USD',
+  JPY = 'JPY',
+  EUR = 'EUR',
+  GBP = 'GBP',
+  CNY = 'CNY',
+  TWD = 'TWD',
+  HKD = 'HKD',
+  IDR = 'IDR',
+  INR = 'INR',
+  RUB = 'RUB',
+  THB = 'THB',
+  VND = 'VND',
+  MYR = 'MYR',
+}
+
+export enum PaymentMethodEnum {
+  CreditCard = 'CreditCard',
+  BankTransfer = 'BankTransfer',
+  MobilePayment = 'MobilePayment',
+  ETC = 'ETC',
+}
+
 
 export interface IAbxOption {
   setOptions(opts?: IAbxCoreInitOptions): void;
@@ -71,11 +117,15 @@ export enum PropertyDataType {
   long = 'long',
   double = 'double',
   boolean = 'boolean',
+
+  // 2depth용
+  array = 'array',
+  dictionary = 'dictionary',
 }
 
 export interface IProperty {
   key: string,
-  value: string | boolean | number;
+  value: string | boolean | number | Array<IProperty>;
   dataType: PropertyDataType,
 }
 
@@ -175,6 +225,8 @@ export interface IAdbrixSdkCore {
   event: IAdbrixSdkCoreEvent;
 
   debug: IAdbrixSdkCoreDebug;
+
+  commerceAttr: IAdbrixSdkCoreCommerceAttr;
 }
 
 export interface IAdbrixSdkCoreUserProperty {
@@ -195,6 +247,14 @@ export interface IAdbrixSdkCoreCommon {
   invite(inviteChannel: SignUpEnum, userId: string | number, properties?: Dictionary<any> | null | undefined): boolean;
 
   useCredit(credit: number, properties?: Dictionary<any> | null | undefined): boolean;
+
+  purchase(orderId: string, products: ICommerceProduct[], orderSales: number, discount: number, deliveryCharge: number, paymentMethod: PaymentMethodEnum | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+}
+
+export interface IAdbrixSdkCoreCommerceAttr {
+  categories(category: string, category2?: string, category3?: string, category4?: string, category5?: string): ICommerceCategory;
+
+  product(productId: string | null, productName: string | null, price: number, quantity: number, discount: number, currency: CurrencyEnum, categories: ICommerceCategory, properties: Dictionary<string | number | boolean> | null | undefined): ICommerceProduct | null
 }
 
 export interface IAdbrixSdkCoreEvent {
@@ -296,22 +356,6 @@ export interface IURL {
   hash: string;
 }
 
-export enum SignUpEnum {
-  Kakao = 'Kakao',
-  Naver = 'Naver',
-  Line = 'Line',
-  Google = 'Google',
-  Facebook = 'Facebook',
-  Twitter = 'Twitter',
-  whatsApp = 'whatsApp',
-  QQ = 'QQ',
-  WeChat = 'WeChat',
-  UserId = 'UserId',
-  ETC = 'ETC',
-  SkTid = 'SkTid',
-  AppleId = 'AppleId',
-}
-
 
 export interface AppLandingMetaInfo {
   appkey: string;
@@ -330,4 +374,45 @@ export interface OgTagModel {
   title: string;
   description: string;
   image_url: string;
+}
+
+export interface ICommerceCategory {
+  'abx:category1'?: string,
+  'abx:category2'?: string,
+  'abx:category3'?: string,
+  'abx:category4'?: string,
+  'abx:category5'?: string,
+}
+
+export interface ICommerceProduct extends ICommerceCategory, Dictionary<any> {
+  'abx:item_id': string,
+  'abx:price': number,
+  'abx:quantity': number,
+  'abx:discount': number,
+  'abx:sales': number,
+  'abx:product_id'?: string,
+  'abx:product_name'?: string,
+  'abx:currency'?: CurrencyEnum,
+}
+
+export interface ICommonSignUp extends Dictionary<any> {
+  'abx:sign_channel': string
+}
+
+export interface ICommonInvite extends Dictionary<any> {
+  'abx:invite_channel': string,
+  'user_id': string | number
+}
+
+export interface ICommonUseCredit extends Dictionary<any> {
+  'credit': number,
+}
+
+export interface ICommonPurchase extends Dictionary<any> {
+  'abx:order_sales': number,
+  'abx:discount': number,
+  'abx:delivery_charge': number,
+  'abx:order_id'?: string,
+  'abx:payment_method'?: PaymentMethodEnum,
+  'abx:items'?: ICommerceProduct[]
 }
