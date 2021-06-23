@@ -90,6 +90,7 @@ export interface IAbxConstant {
   readonly MAX_PROPERTY_KEYS: number,
   readonly MAX_PROPERTY_KEY_LENGTH: number,
   readonly MAX_PROPERTY_VALUE_BYTE_SIZE: number;
+  readonly MAX_RETRIES_REQUEST_EVENT: number;
   readonly ADBRIX_PREFIX_COOKIE_KEY: string;
   readonly ADBRIX_PREDEFINED_EVENTS: Array<string>;
 }
@@ -103,6 +104,19 @@ export interface IAbxMetaStorageData {
   session: IAbxSession;
   userId: string | number | null;
   userProperty: IUserProperty;
+}
+
+export interface IAbxLocalStorageData {
+  failed_event_requests: Record<string, IAbxSendEventModel>;
+  lastUpdate: number | null;
+}
+
+export interface IAbxSendEventModel {
+  request_id: string;
+  url: string;
+  request: any;
+  timestamp: number,
+  retry_count: number
 }
 
 export interface IAbxCookieOption {
