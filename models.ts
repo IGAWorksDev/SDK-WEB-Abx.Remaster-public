@@ -78,7 +78,7 @@ export interface IAbxOption {
   isUtmParsing: boolean;
   isNaverParsing: boolean;
   isIncludeReferrer: boolean;
-  isincludeGclid: boolean;
+  isIncludeGclid: boolean;
   isExecPageViewEvent: boolean;
   traceLevel: TraceLevel;
   traceListener: Function;
@@ -186,6 +186,8 @@ export interface IAbxCoreInitOptions {
   isIncludeReferrer?: boolean;
   // gclid 추적
   isincludeGclid?: boolean;
+  // 오탈자로 인한 추가 (21-06-25)
+  isIncludeGclid?: boolean;
 
   // init시, page 추적
   isExecPageViewEvent?: boolean;
