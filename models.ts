@@ -39,6 +39,20 @@ export enum SignUpEnum {
   AppleId = 'AppleId',
 }
 
+export enum CommerceSharingChannelEnum {
+  Facebook = 'Facebook',
+  KakaoTalk = 'KakaoTalk',
+  KakaoStory = 'KakaoStory',
+  Line = 'Line',
+  whatsApp = 'whatsApp',
+  QQ = 'QQ',
+  WeChat = 'WeChat',
+  SMS = 'SMS',
+  Email = 'Email',
+  copyUrl = 'copyUrl',
+  ETC = 'ETC',
+}
+
 
 export enum CurrencyEnum {
   KRW = 'KRW',
@@ -204,6 +218,20 @@ export interface IAbxCoreInitOptions {
 
 }
 
+export interface ICommerceProperties {
+
+}
+
+export interface IGameProperties {
+
+}
+
+export interface ILevelAchieved {
+  setLevel(level: number);
+
+  setAttrModel(properties: Dictionary<string | number | boolean> | null | undefined);
+}
+
 export interface IAbxCore {
   init(opts: IAbxCoreInitOptions): void;
 
@@ -270,7 +298,43 @@ export interface IAdbrixSdkCoreCommon {
 export interface IAdbrixSdkCoreCommerceAttr {
   categories(category: string, category2?: string, category3?: string, category4?: string, category5?: string): ICommerceCategory;
 
-  product(productId: string | null, productName: string | null, price: number, quantity: number, discount: number, currency: CurrencyEnum, categories: ICommerceCategory, properties: Dictionary<string | number | boolean> | null | undefined): ICommerceProduct | null
+  product(productId: string | null, productName: string | null, price: number, quantity: number, discount: number, currency: CurrencyEnum, categories: ICommerceCategory, properties: Dictionary<string | number | boolean> | null | undefined): ICommerceProduct | null;
+}
+
+export interface IAdbrixSdkCoreCommerce {
+  viewHome(): boolean;
+
+  categoryView(): boolean;
+
+  productView(): boolean;
+
+  addToCart(): boolean;
+
+  addToWishList(): boolean;
+
+  reviewOrder(): boolean;
+
+  refund(): boolean;
+
+  search(): boolean;
+
+  share(): boolean;
+
+  listView(): boolean;
+
+  cartView(): boolean;
+
+  paymentInfoAdded(): boolean;
+}
+
+export interface IAdbrixSdkCoreGame {
+  tutorialComplete(): boolean;
+
+  characterCreated(): boolean;
+
+  stageCleared(): boolean;
+
+  levelAchieved(): boolean;
 }
 
 export interface IAdbrixSdkCoreEvent {
@@ -412,7 +476,7 @@ export interface ICommerceProduct extends ICommerceCategory, Dictionary<any> {
 }
 
 export interface ICommonSignUp extends Dictionary<any> {
-  'abx:sign_channel': string
+  'abx:sign_channel': string;
 }
 
 export interface ICommonInvite extends Dictionary<any> {
