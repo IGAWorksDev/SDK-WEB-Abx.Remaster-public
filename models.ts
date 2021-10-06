@@ -213,23 +213,9 @@ export interface IAbxCoreInitOptions {
   // true가 기본값
   shareSubdomainCookie?: boolean;
 
-  traceLevel?: TraceLevel;
+  traceLevel?: TraceLevel | string;
   traceListener?: Function;
 
-}
-
-export interface ICommerceProperties {
-
-}
-
-export interface IGameProperties {
-
-}
-
-export interface ILevelAchieved {
-  setLevel(level: number);
-
-  setAttrModel(properties: Dictionary<string | number | boolean> | null | undefined);
 }
 
 export interface IAbxCore {
@@ -304,37 +290,37 @@ export interface IAdbrixSdkCoreCommerceAttr {
 export interface IAdbrixSdkCoreCommerce {
   viewHome(): boolean;
 
-  categoryView(): boolean;
+  categoryView(categories: ICommerceCategory, products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  productView(): boolean;
+  productView(product: ICommerceProduct | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  addToCart(): boolean;
+  addToCart(products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  addToWishList(): boolean;
+  addToWishList(product: ICommerceProduct | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  reviewOrder(): boolean;
+  reviewOrder(orderId: string, products: ICommerceProduct[] | null, discount: number, deliveryCharge: number, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  refund(): boolean;
+  refund(orderId: string, products: ICommerceProduct[] | null, penaltyCharge: number, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  search(): boolean;
+  search(keyword: string, products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  share(): boolean;
+  share(sharingChannel: CommerceSharingChannelEnum, products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  listView(): boolean;
+  listView(products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  cartView(): boolean;
+  cartView(products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  paymentInfoAdded(): boolean;
+  paymentInfoAdded(properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 }
 
 export interface IAdbrixSdkCoreGame {
-  tutorialComplete(): boolean;
+  tutorialComplete(isSkip: boolean, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  characterCreated(): boolean;
+  characterCreated(properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  stageCleared(): boolean;
+  stageCleared(stageName: string, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  levelAchieved(): boolean;
+  levelAchieved(level: number, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
 }
 
 export interface IAdbrixSdkCoreEvent {
