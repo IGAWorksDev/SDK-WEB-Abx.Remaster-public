@@ -278,53 +278,53 @@ export interface IAdbrixSdkCoreCommon {
 
   useCredit(credit: number, properties?: Dictionary<any> | null | undefined): boolean;
 
-  purchase(orderId: string, products: ICommerceProduct[], orderSales: number, discount: number, deliveryCharge: number, paymentMethod: PaymentMethodEnum | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  purchase(orderId: string, products: ICommerceProduct[], orderSales: number, discount: number, deliveryCharge: number, paymentMethod: PaymentMethodEnum | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 }
 
 export interface IAdbrixSdkCoreCommerceAttr {
   categories(category: string, category2?: string, category3?: string, category4?: string, category5?: string): ICommerceCategory;
 
-  product(productId: string | null, productName: string | null, price: number, quantity: number, discount: number, currency: CurrencyEnum, categories: ICommerceCategory, properties: Dictionary<string | number | boolean> | null | undefined): ICommerceProduct | null;
+  product(productId: string | null, productName: string | null, price: number, quantity: number, discount: number, currency: CurrencyEnum, categories: ICommerceCategory, properties?: Dictionary<string | number | boolean> | null | undefined): ICommerceProduct | null;
 }
 
 export interface IAdbrixSdkCoreCommerce {
   viewHome(): boolean;
 
-  categoryView(categories: ICommerceCategory, products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  categoryView(categories: ICommerceCategory, products: ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  productView(product: ICommerceProduct | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  productView(product: ICommerceProduct | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  addToCart(products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  addToCart(products: ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  addToWishList(product: ICommerceProduct | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  addToWishList(product: ICommerceProduct | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  reviewOrder(orderId: string, products: ICommerceProduct[] | null, discount: number, deliveryCharge: number, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  reviewOrder(orderId: string, products: ICommerceProduct[] | null, discount?: number, deliveryCharge?: number, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  refund(orderId: string, products: ICommerceProduct[] | null, penaltyCharge: number, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  refund(orderId: string, products: ICommerceProduct[] | null, penaltyCharge?: number, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  search(keyword: string, products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  search(keyword: string, products: ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  share(sharingChannel: CommerceSharingChannelEnum, products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  share(sharingChannel: CommerceSharingChannelEnum, products: ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  listView(products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  listView(products: ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  cartView(products: ICommerceProduct[] | null, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  cartView(products: ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  paymentInfoAdded(properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  paymentInfoAdded(properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 }
 
 export interface IAdbrixSdkCoreGame {
-  tutorialComplete(isSkip: boolean, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  tutorialComplete(isSkip: boolean, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  characterCreated(properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  characterCreated(properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  stageCleared(stageName: string, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  stageCleared(stageName: string, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  levelAchieved(level: number, properties: Dictionary<string | number | boolean> | null | undefined): boolean;
+  levelAchieved(level: number, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 }
 
 export interface IAdbrixSdkCoreEvent {
-  send(key: string, eventProperty?: Dictionary<any> | null | undefined): boolean;
+  send(key: string, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 }
 
 export interface IAdbrixSdkCoreDebug {
