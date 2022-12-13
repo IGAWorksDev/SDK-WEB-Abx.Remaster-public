@@ -1,4 +1,5 @@
-import exp from 'constants';
+import { NotificationPermission } from '@/push/models/notification-permission';
+import { ServiceWorkerOptions } from '@/push/models/web-push-config';
 
 export const instanceOf = <T>(p: any, key: string): p is T => p.hasOwnProperty(key);
 
@@ -78,6 +79,16 @@ export enum PaymentMethodEnum {
   ETC = 'ETC',
 }
 
+export enum TransportEnum {
+  BEACON,
+  XHR,
+  IMAGE,
+}
+
+export enum AppRegion {
+  ap1 = 'ap1',
+  ap2 = 'ap2',
+}
 
 export interface IAbxOption {
   setOptions(opts?: IAbxCoreInitOptions): void;
@@ -93,7 +104,10 @@ export interface IAbxOption {
   isNaverParsing: boolean;
   isIncludeReferrer: boolean;
   isIncludeGclid: boolean;
+  isIncludeFbclid: boolean;
   isExecPageViewEvent: boolean;
+  transport: TransportEnum;
+
   traceLevel: TraceLevel;
   traceListener: Function;
 }
@@ -104,6 +118,8 @@ export interface IAbxConstant {
   readonly MAX_PROPERTY_KEYS: number,
   readonly MAX_PROPERTY_KEY_LENGTH: number,
   readonly MAX_PROPERTY_VALUE_BYTE_SIZE: number;
+  readonly MAX_HTTP_QUERY_STRING_BYTE_SIZE: number;
+  readonly MAX_BEACON_HTTP_QUERY_STRING_BYTE_SIZE: number;
   readonly MAX_RETRIES_REQUEST_EVENT: number;
   readonly ADBRIX_PREFIX_COOKIE_KEY: string;
   readonly ADBRIX_PREDEFINED_EVENTS: Array<string>;
@@ -111,6 +127,7 @@ export interface IAbxConstant {
 
 export interface IAbxMetaStorageData {
   firstPartyId: string | null;
+  isSendFirstParty: boolean | null;
   lastFirstOpenId: string | null;
   lastDeeplinkId: string | null;
   lastEventLogId: string | null;
@@ -118,6 +135,9 @@ export interface IAbxMetaStorageData {
   session: IAbxSession;
   userId: string | number | null;
   userProperty: IUserProperty;
+  is_push_enable_os: boolean;
+  is_push_enable: boolean;
+  registration_id: string;
 }
 
 export interface IAbxLocalStorageData {
@@ -185,6 +205,7 @@ export enum TraceLevel {
 export interface IAbxCoreInitOptions {
   appkey: string | null;
   webSecretkey: string | null;
+
   // 사용자 해쉬값
   userHash?: string | number | null;
   appVersion?: string;
@@ -202,6 +223,8 @@ export interface IAbxCoreInitOptions {
   isincludeGclid?: boolean;
   // 오탈자로 인한 추가 (21-06-25)
   isIncludeGclid?: boolean;
+  // fbclid 추적
+  isIncludeFbclid?: boolean;
 
   // init시, page 추적
   isExecPageViewEvent?: boolean;
@@ -213,9 +236,24 @@ export interface IAbxCoreInitOptions {
   // true가 기본값
   shareSubdomainCookie?: boolean;
 
+  // 전송방식  (image, xhr, beacon)
+  // 참고: https://developers.google.com/analytics/devguides/collection/analyticsjs/sending-hits#specifying_different_transport_mechanisms
+  transport?: TransportEnum | string;
+
   traceLevel?: TraceLevel | string;
   traceListener?: Function;
 
+  push?: IPushInitOptions;
+}
+
+export interface IPushInitOptions {
+  enable: boolean;
+  serviceWorkerOptions?: ServiceWorkerOptions;
+  subscriptionPromptOptions?: SubscriptionPromptOptions;
+}
+
+export interface SubscriptionPromptOptions {
+  zIndex: number;
 }
 
 export interface IAbxCore {
@@ -257,6 +295,8 @@ export interface IAdbrixSdkCore {
   debug: IAdbrixSdkCoreDebug;
 
   commerceAttr: IAdbrixSdkCoreCommerceAttr;
+
+  push: IAdbrixPush;
 }
 
 export interface IAdbrixSdkCoreUserProperty {
@@ -332,8 +372,9 @@ export interface IAdbrixSdkCoreDebug {
 }
 
 export interface IAdbrixSendEventBulkParam {
-  evtName: string,
-  evtProps: Dictionary<string | number | boolean>
+  eventName: string,
+  properties: Dictionary<string | number | boolean>
+  isAbxPredefinedCheck: boolean
 }
 
 export interface IAdbrixSendEventParam {
@@ -422,9 +463,9 @@ export interface IURL {
   hash: string;
 }
 
-
 export interface AppLandingMetaInfo {
   appkey: string;
+  region: AppRegion;
   web_secretkey_sha256: string;
   app_name: string;
   aos_market_url: string;
@@ -481,4 +522,13 @@ export interface ICommonPurchase extends Dictionary<any> {
   'abx:order_id'?: string,
   'abx:payment_method'?: PaymentMethodEnum,
   'abx:items'?: ICommerceProduct[]
+}
+
+export interface IAdbrixPush {
+  isPushEnabled: () => Promise<boolean>,
+  isPushSupported: () => Promise<boolean>,
+  showPrompt: () => Promise<void>,
+  showNativePrompt: () => Promise<NotificationPermission | void>,
+  getNotificationPermission: () => Promise<NotificationPermission>,
+  showLocalNotification: (title: string, options: NotificationOptions) => Promise<Notification>,
 }
