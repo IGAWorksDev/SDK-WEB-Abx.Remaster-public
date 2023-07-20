@@ -3,6 +3,103 @@ import { ServiceWorkerOptions } from '@/push/models/web-push-config';
 
 export const instanceOf = <T>(p: any, key: string): p is T => p.hasOwnProperty(key);
 
+export enum UserProfileResultCode {
+    SUCCESS = 2000,
+    INVALID_TOKEN = 4001,
+    INVALID_REQUEST = 4002,
+    BLOCKED_ACCOUNT = 4003,
+    UNAHORIZED = 4004,
+    TERMINATED_API = 4005,
+    RATE_LIMIT_EXCEEDED = 4006,
+    INTERNAL_SERVER_ERROR = 5001,
+    SERVICE_MAINTENANCE = 5002
+}
+export enum SubscriptionStatusValue {
+  SUBSCRIBED = 'Subscribed',
+  UNSUBSCRIBED = 'Unsubscribed',
+  UNDEFINED = 'Undefined',
+}
+export enum SubscriptionStatusProperty {
+  INFORMATIVE_NOTIFICATION_FLAG = 'abx:info_flag',
+  MARKETING_NOTIFICATION_FLAG = 'abx:mkt_flag',
+  MARKETING_NOTIFICATION_FLAG_FOR_PUSH_CHANNEL = 'abx:mkt_push_flag',
+  MARKETING_NOTIFICATION_FLAG_FOR_SMS_CHANNEL = 'abx:mkt_sms_flag',
+  MARKETING_NOTIFICATION_FLAG_FOR_KAKAO_CHANNEL = 'abx:mkt_kakao_flag',
+  MARKETING_NOTIFICATION_AT_NIGHT_FLAG = 'abx:night_flag',
+  MARKETING_NOTIFICATION_AT_NIGHT_FLAG_FOR_PUSH_CHANNEL = 'abx:night_push_flag',
+  MARKETING_NOTIFICATION_AT_NIGHT_FLAG_FOR_SMS_CHANNEL = 'abx:night_sms_flag',
+  MARKETING_NOTIFICATION_AT_NIGHT_FLAG_FOR_KAKAO_CHANNEL = 'abx:night_kakao_flag',
+}
+
+export enum CiProperty{
+  PHONE_NUMBER = 'abx:phone_number',
+  KAKAO_ID = 'abx:kakao_id',
+}
+
+export enum IdentifierType {
+  all = 'all',
+  device_id = 'device_id',
+  user_id = 'user_id',
+}
+export enum InAppMessageType {
+  full_screen = 'full_screen',
+  modal = 'modal',
+  sticky_banner= 'sticky_banner',
+}
+export enum InAppMessageEventType {
+  impression = 'impression',
+  click = 'click',
+}
+export enum InAppMessageActionType {
+  close = 'close',
+  deeplink_and_close = 'deeplink_and_close',
+  weblink = 'weblink',
+  weblink_and_close = 'weblink_and_close',
+  dont_show_me_today_and_close = 'dont_show_me_today_and_close',
+}
+export enum InAppMessageElementId {
+  root = 'dfn-in-app-message-root',
+  //invisible = '', remove 하면됨
+}
+export enum InAppMessageElementClass {
+  visible = 'dfn-pop-up--visible',
+  ready = 'dfn-pop-up--ready',
+  //invisible = '', remove 하면됨
+}
+export enum InAppMessageElementDataset{
+  campaign_id = 'data-dfn-campaign-id',
+  action_id = 'data-dfn-action-id',
+  action_type = 'data-dfn-action-type',
+  action_arg = 'data-dfn-action-arg',
+}
+export enum InAppMessageTimeZone{
+  global = 'Global',
+  local = 'Local',
+}
+
+export enum Condition {
+  greater = 'greater',
+  greaterThanEqual = 'greaterThanEqual',
+  less = 'less',
+  lessThanEqual = 'lessThanEqual',
+  between = 'between',
+  contains = 'contains',
+  notContains = 'notContains',
+  notEqual = 'notEqual',
+  equal = 'equal',
+  startWith = 'startWith',
+  notBetween = 'notBetween',
+}
+export enum ValueType {
+  TEXT = 'text',
+  NUMBER = 'number',
+  BOOLEAN = 'boolean',
+  DATETIME = 'datetime',
+  ENUM = 'enum',
+  LONG = 'long',
+  DOUBLE = 'double',
+}
+
 export enum UtmParamsEnum {
   UTM_SOURCE = 'utm_source',
   UTM_MEDIUM = 'utm_medium',
@@ -154,10 +251,10 @@ export interface IAbxSendEventModel {
 }
 
 export interface IAbxCookieOption {
-  expireDay: number;
-  domain: string;
-  secure: string;
-  sameSite: string;
+  expireDay?: number;
+  domain?: string;
+  secure?: string;
+  sameSite?: string;
 }
 
 export enum PropertyDataType {
@@ -244,6 +341,7 @@ export interface IAbxCoreInitOptions {
   traceListener?: Function;
 
   push?: IPushInitOptions;
+  inWebMessage?: IInWebMessageInitOptions;
 }
 
 export interface IPushInitOptions {
@@ -334,9 +432,9 @@ export interface IAdbrixSdkCoreCommerce {
 
   productView(product: ICommerceProduct | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  addToCart(products: ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
+  addToCart(products: ICommerceProduct | ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
-  addToWishList(product: ICommerceProduct | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
+  addToWishList(product: ICommerceProduct | ICommerceProduct[] | null, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
   reviewOrder(orderId: string, products: ICommerceProduct[] | null, discount?: number, deliveryCharge?: number, properties?: Dictionary<string | number | boolean> | null | undefined): boolean;
 
@@ -482,6 +580,84 @@ export interface OgTagModel {
   description: string;
   image_url: string;
 }
+export interface GetUserProfileRequest{
+  appkey: string;
+  user_id: string;
+  property_names: Array<string>;
+}
+export interface GetUserProfileResponse{
+  result_code: number;
+  result_msg: string | null;
+  result_data: GetUserProfileResponseResultData | null | undefined;
+}
+export interface GetUserProfileResponseResultData{
+  user_id: string;
+  properties: Dictionary<any> | null;
+}
+export interface SetUserProfileRequest{
+  appkey: string;
+  user_id: string;
+  properties: Dictionary<any>;
+}
+export interface SetUserProfileResponse{
+  result_code: number;
+  result_msg: string | null;
+  result_data: SetUserProfileResponseResultData | null | undefined;
+}
+export interface SetUserProfileResponseResultData{
+  user_id: string;
+}
+export interface GetSubscriptionStatusResult {
+  is_success: boolean;
+  result_code: number;
+  result_message: string;
+  informative_notification_flag?: boolean | undefined | null;
+  marketing_notification_flag?: boolean | undefined | null;
+  marketing_notification_flag_for_push_channel?: boolean | undefined | null;
+  marketing_notification_flag_for_sms_channel?: boolean | undefined | null;
+  marketing_notification_flag_for_kakao_channel?: boolean | undefined | null;
+  marketing_notification_at_night_flag?: boolean | undefined | null;
+  marketing_notification_at_night_flag_for_push_channel?: boolean | undefined | null;
+  marketing_notification_at_night_flag_for_sms_channel?: boolean | undefined | null;
+  marketing_notification_at_night_flag_for_kakao_channel?: boolean | undefined | null;
+}
+export interface SubscriptionStatus {
+  informative_notification_flag?: boolean | undefined | null;
+  marketing_notification_flag?: boolean | undefined | null;
+  marketing_notification_flag_for_push_channel?: boolean | undefined | null;
+  marketing_notification_flag_for_sms_channel?: boolean | undefined | null;
+  marketing_notification_flag_for_kakao_channel?: boolean | undefined | null;
+  marketing_notification_at_night_flag?: boolean | undefined | null;
+  marketing_notification_at_night_flag_for_push_channel?: boolean | undefined | null;
+  marketing_notification_at_night_flag_for_sms_channel?: boolean | undefined | null;
+  marketing_notification_at_night_flag_for_kakao_channel?: boolean | undefined | null;
+}
+
+export interface SetSubscriptionStatusResult {
+  is_success: boolean;
+  result_code: number;
+  result_message: string;
+}
+
+export interface SetCiPropertyRequest{
+  appkey: string;
+  user_id: string;
+  user_ci_properties: Dictionary<string>;
+}
+export interface SetCiPropertyResponse{
+  result_code: number;
+  result_msg: string | null;
+  result_data: SetCiPropertyResponseResultData | null | undefined;
+}
+export interface SetCiPropertyResponseResultData{
+  user_id: string;
+}
+
+export interface SetCiProfileResult {
+  is_success: boolean;
+  result_code: number;
+  result_message: string;
+}
 
 export interface ICommerceCategory {
   'abx:category1'?: string,
@@ -532,3 +708,159 @@ export interface IAdbrixPush {
   getNotificationPermission: () => Promise<NotificationPermission>,
   showLocalNotification: (title: string, options: NotificationOptions) => Promise<Notification>,
 }
+
+// region inAppMessage
+export interface IInWebMessageInitOptions {
+  enable: boolean;
+  openInNewWindow: boolean;
+  fetchListener?: Function;
+  clickListener?: Function;
+  zIndex: number;
+}
+
+export interface DfnInWebMessage {
+  campaign_id: string;
+  identifier_type: string;
+  ext_attr: string;
+  timezone_offset: number;
+  timezone_type: string;
+  type: string;
+  contents_html: string;
+  bg_style_bg_color: string;
+  bg_style_overlay_color: string;
+  position_mobile: string;
+  position_desktop: string;
+  frequency_cap_per_session: number;
+  frequency_cap_per_user: number;
+  frequency_cap_for_period_in_minutes: number;
+  frequency_cap_for_period_per_period: number;
+  start_datetime: number;
+  end_datetime: number;
+  last_updated_datetime: number;
+  ext_config: string;
+}
+export interface AvailableTime {
+  campaign_id: string;
+  identifier_type: string;
+  day: string;
+  start_min: number;
+  end_min: number;
+}
+export interface CurrentFrequency {
+  campaign_id: string;
+  user_id: string;
+  current_frequency_cap_per_session: number;
+  current_frequency_cap_per_user: number;
+  frequency_last_group_start_time: number;
+  frequency_last_group_count: number;
+  unavailable_day: string;
+  unavailable_time: number;
+}
+export interface Triggers {
+  campaign_id: string;
+  identifier_type: string;
+  type: string;
+  event_name: string;
+  priority: number;
+  evt_properties: string;
+  last_updated_datetime: number;
+}
+
+export interface FetchInAppMessageRequest {
+  common: IAdbrixEventCommonModel;
+  in_app_message: FetchInAppMessageRequestInAppMessage;
+}
+export interface FetchInAppMessageRequestInAppMessage {
+  checksum: string;
+  user_id: number;
+  required_campaign_ids: Array<string>;
+  max_touch_points: number;
+}
+export interface FetchInAppMessageResponse {
+  result: string;
+  resultCode: number;
+  resultMsg: string;
+  elapsedTime: number;
+  data: FetchInAppMessageResponseData;
+}
+
+export interface FetchInAppMessageResponseData {
+  checksum: string;
+  status: string;
+  minutes_to_expiry: number;
+  common_js_url: string;
+  in_app_messages: Array<FetchInAppMessageResponseDataInAppMessage>;
+}
+
+export interface FetchInAppMessageResponseDataInAppMessage {
+  identifier_type: string;
+  campaign_id: string;
+  type: string;
+  position: FetchInAppMessageResponseDataInAppMessagePosition;
+  contents: FetchInAppMessageResponseDataInAppMessageContents;
+  triggers: Array<FetchInAppMessageResponseDataInAppMessageTriggers>;
+  ext_attr: string;
+  frequency_cap: FetchInAppMessageResponseDataInAppMessageFrequencyCap;
+  timezone_offset: number;
+  timezone_type: string;
+  available_time: Array<FetchInAppMessageResponseDataInAppMessageAvailableTime>;
+  start_datetime: string;
+  end_datetime: string;
+  last_updated_datetime: string;
+  is_campaign_to_test: boolean;
+  ext_config: FetchInAppMessageResponseDataInAppMessageExtConfig;
+}
+export interface FetchInAppMessageResponseDataInAppMessagePosition {
+  mobile: string;
+  desktop: string;
+}
+export interface FetchInAppMessageResponseDataInAppMessageContents {
+  html: string;
+  bg_style: FetchInAppMessageResponseDataInAppMessageContentsBgStyle;
+}
+export interface FetchInAppMessageResponseDataInAppMessageContentsBgStyle {
+  bg_color: string;
+  overlay_color: string;
+}
+export interface FetchInAppMessageResponseDataInAppMessageTriggers {
+  type: string;
+  evt: string;
+  evt_properties: Array<FetchInAppMessageResponseDataInAppMessageTriggersEvtProperties>;
+  priority: number;
+}
+export interface FetchInAppMessageResponseDataInAppMessageTriggersEvtProperties {
+  value_type: string;
+  property: string;
+  alias: string;
+  condition: string;
+  values: Array<string>;
+}
+export interface FetchInAppMessageResponseDataInAppMessageFrequencyCap {
+  per_session: number;
+  per_user: number;
+  per_period: FetchInAppMessageResponseDataInAppMessageFrequencyCapForPeriod|null|undefined;
+}
+export interface FetchInAppMessageResponseDataInAppMessageFrequencyCapForPeriod {
+  period_in_minutes: number|null|undefined;
+  per_period: number|null|undefined;
+}
+export interface FetchInAppMessageResponseDataInAppMessageAvailableTime {
+  days: Array<string>;
+  start_min: number;
+  end_min: number;
+}
+export interface FetchInAppMessageResponseDataInAppMessageExtConfig {
+  growth_scenario: FetchInAppMessageResponseDataInAppMessageExtConfigGrowthScenario;
+}
+export interface FetchInAppMessageResponseDataInAppMessageExtConfigGrowthScenario {
+  abx_gf_campaign_id: string;
+  abx_gf_campaign_revision_no: number;
+  abx_gf_step_id: string;
+}
+export interface InAppMessageClickAction {
+  campaign_id: string;
+  action_id: string | undefined;
+  action_type: string | undefined;
+  action_arg: string | undefined;
+}
+// endregion
