@@ -3,6 +3,17 @@ import { ServiceWorkerOptions } from '@/push/models/web-push-config';
 
 export const instanceOf = <T>(p: any, key: string): p is T => p.hasOwnProperty(key);
 
+export enum HttpStatus {
+  OK = 200,
+  NO_CONTENT = 204,
+  BAD_REQUEST = 400,
+  FORBIDDEN = 403,
+  NOT_FOUND = 404,
+  INTERNAL_SERVER_ERROR = 500,
+  BAD_GATEWAY = 502,
+  GATEWAY_TIMEOUT = 504,
+}
+
 export enum UserProfileResultCode {
     SUCCESS = 2000,
     INVALID_TOKEN = 4001,
@@ -215,6 +226,7 @@ export interface IAbxConstant {
   readonly MAX_PROPERTY_KEYS: number,
   readonly MAX_PROPERTY_KEY_LENGTH: number,
   readonly MAX_PROPERTY_VALUE_BYTE_SIZE: number;
+  readonly MAX_COOKIE_BYTE_SIZE: number;
   readonly MAX_HTTP_QUERY_STRING_BYTE_SIZE: number;
   readonly MAX_BEACON_HTTP_QUERY_STRING_BYTE_SIZE: number;
   readonly MAX_RETRIES_REQUEST_EVENT: number;
