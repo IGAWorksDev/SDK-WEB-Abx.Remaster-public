@@ -32,5 +32,7 @@ interface Window {
   adbrix_core: any;
   // ie ajax
   XDomainRequest: any;
+  // inWebMessage
+  DfnPopUp : any;
 }
 
