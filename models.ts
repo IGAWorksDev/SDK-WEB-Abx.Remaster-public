@@ -13,6 +13,11 @@ export enum HttpStatus {
   BAD_GATEWAY = 502,
   GATEWAY_TIMEOUT = 504,
 }
+export enum StartSessionOpenType{
+  FIRST_OPEN = 'first_open',
+  BASIC_OPEN = 'basic_open',
+  DEEPLINK_OPEN = 'deeplink_open'
+}
 
 export enum UserProfileResultCode {
     SUCCESS = 2000,
@@ -243,6 +248,7 @@ export interface IAbxMetaStorageData {
   lastDailyFirstOpenTime: number | null;
   session: IAbxSession;
   userId: string | number | null;
+  eventOrderNo : number;
   userProperty: IUserProperty;
   is_push_enable_os: boolean;
   is_push_enable: boolean;
@@ -250,7 +256,7 @@ export interface IAbxMetaStorageData {
 }
 
 export interface IAbxLocalStorageData {
-  failed_event_requests: Record<string, IAbxSendEventModel>;
+  failed_event_requests: Record<string, IAdbrixEventRequestJsonObject>;
   lastUpdate: number | null;
 }
 
@@ -259,7 +265,7 @@ export interface IAbxSendEventModel {
   url: string;
   request: any;
   timestamp: number,
-  retry_count: number
+  // retry_count: number
 }
 
 export interface IAbxCookieOption {
@@ -516,6 +522,7 @@ export interface IAdbrixEventRequestJsonObject {
   user_snapshot_id: string,
   location: string | null,
   user_properties: Dictionary<any> | null,
+  retry_count: number | 0 
 }
 
 export interface IAdbrixEventIdentity {
