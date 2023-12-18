@@ -247,7 +247,7 @@ export interface IAbxMetaStorageData {
   lastEventLogId: string | null;
   lastDailyFirstOpenTime: number | null;
   session: IAbxSession;
-  userId: string | number | null;
+  userHash: string | number | null;
   eventOrderNo : number;
   userProperty: IUserProperty;
   is_push_enable_os: boolean;
