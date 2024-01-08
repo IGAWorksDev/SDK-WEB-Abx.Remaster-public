@@ -237,6 +237,7 @@ export interface IAbxConstant {
   readonly MAX_RETRIES_REQUEST_EVENT: number;
   readonly ADBRIX_PREFIX_COOKIE_KEY: string;
   readonly ADBRIX_PREDEFINED_EVENTS: Array<string>;
+  readonly ADBRIX_DOUBLE_TYPE_PROPERTIES : Array<string>;
 }
 
 export interface IAbxMetaStorageData {
